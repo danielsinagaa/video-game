@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Game</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #cd6155;
+        }
+
+        .navbar {
+            background-color: black;
+        }
+
+        .navbar .navbar-nav .nav-item .nav-link {
+            color: #cd6155;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        .navbar .navbar-brand {
+            color: #cd6155;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .navbar .navbar-brand {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .navbar .navbar-nav .nav-item .nav-link:hover,
+        .navbar .navbar-brand:hover {
+            color: white;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom {
+            background-color: #cd6155;
+            color: white;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="navbar-nav">
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/home(username=${username}, email=${email})}">Home</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/game(username=${username}, email=${email})}">Game</a>
+    </div>
+    <a style="font-size: 20px;" class="navbar-brand" href="#" th:href="@{/}">Your Game Recommendation System</a>
+    <div class="navbar-nav ml-auto">
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/profile(username=${username}, email=${email})}">Profile</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/logout}">Log out</a>
+    </div>
+</nav>
+
+<div class="form-container">
+    <h3 class="text-center mb-4">Add New Game</h3>
+    <form th:action="@{/game/add(username=${username}, email=${email})}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Game Title</label>
+            <input type="text" id="title" name="title" class="form-control" placeholder="Enter game title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" placeholder="Enter game description" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="releaseDate">Release Date</label>
+            <input type="date" id="releaseDate" name="releaseDate" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="developer">Developer</label>
+            <input type="text" id="developer" name="developer" class="form-control" placeholder="Enter game developer name" required>
+        </div>
+
+        <!-- Genre Dropdowns -->
+        <div class="form-group">
+            <label for="genre1">Genre 1</label>
+            <select id="genre1" name="genre1" class="form-control" required>
+                <option value="" selected disabled>Select a genre</option>
+                <th:block th:each="genre : ${genres}">
+                    <option th:value="${genre.id}" th:text="${genre.name}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="genre2">Genre 2 (Optional)</label>
+            <select id="genre2" name="genre2" class="form-control">
+                <option value="" selected disabled>Select a genre</option>
+                <th:block th:each="genre : ${genres}">
+                    <option th:value="${genre.id}" th:text="${genre.name}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="genre3">Genre 3 (Optional)</label>
+            <select id="genre3" name="genre3" class="form-control">
+                <option value="" selected disabled>Select a genre</option>
+                <th:block th:each="genre : ${genres}">
+                    <option th:value="${genre.id}" th:text="${genre.name}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="genre4">Genre 4 (Optional)</label>
+            <select id="genre4" name="genre4" class="form-control">
+                <option value="" selected disabled>Select a genre</option>
+                <th:block th:each="genre : ${genres}">
+                    <option th:value="${genre.id}" th:text="${genre.name}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="gameImage">Game Image</label>
+            <input type="file" id="gameImage" name="gameImage" class="form-control-file" accept=".jpg, .jpeg, .png" required>
+            <small class="form-text text-muted">Only JPG, JPEG, and PNG files are allowed.</small>
+        </div>
+
+        <button type="submit" class="btn btn-custom btn-block">Add Game</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

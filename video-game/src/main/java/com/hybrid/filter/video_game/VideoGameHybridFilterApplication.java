@@ -1,0 +1,13 @@
+package com.hybrid.filter.video_game;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class VideoGameHybridFilterApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(VideoGameHybridFilterApplication.class, args);
+	}
+
+}

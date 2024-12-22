@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Genre</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        /* Body background color */
+        body {
+            background-color: #cd6155;
+        }
+
+        /* Navbar custom styles */
+        .navbar {
+            background-color: black; /* Navbar black background */
+        }
+
+        /* Navbar links style */
+        .navbar .navbar-nav .nav-item .nav-link {
+            color: #cd6155; /* Red color for text */
+            text-transform: uppercase; /* Make all text uppercase */
+            font-size: 16px; /* Set font size for uniform text size */
+        }
+
+        .navbar .navbar-brand {
+            color: #cd6155; /* Red color for brand text */
+            text-transform: uppercase; /* Make brand text uppercase */
+            font-size: 16px; /* Set font size for uniform text size */
+            font-weight: bold; /* Optional: Make brand text bold */
+        }
+
+        /* Center the title properly */
+        .navbar .navbar-brand {
+            flex-grow: 1; /* Ensures it is centered */
+            text-align: center;
+        }
+
+        /* Navbar text hover effect */
+        .navbar .navbar-nav .nav-item .nav-link:hover,
+        .navbar .navbar-brand:hover {
+            color: white; /* Change text color to white on hover */
+        }
+
+        /* Form container styling */
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom {
+            background-color: #cd6155;
+            color: white;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="navbar-nav">
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/home(username=${username}, email=${email})}">Home</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/game(username=${username}, email=${email})}">Game</a>
+    </div>
+    <a style="font-size: 20px;" class="navbar-brand" href="#" th:href="@{/}">Your Game Recommendation System</a>
+    <div class="navbar-nav ml-auto">
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/profile(username=${username}, email=${email})}">Profile</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/logout}">Log out</a>
+    </div>
+</nav>
+
+<!-- Form for adding genre -->
+<div class="form-container">
+    <h3 class="text-center mb-4">Add New Genre</h3>
+    <form th:action="@{/genre/add(username=${username}, email=${email})}" method="POST" enctype="multipart/form-data">
+        <!-- Genre Name -->
+        <div class="form-group">
+            <label for="name">Genre Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter genre name" required>
+        </div>
+
+        <!-- Genre Image -->
+        <div class="form-group">
+            <label for="genreImage">Genre Image</label>
+            <input type="file" id="genreImage" name="genreImage" class="form-control-file" accept=".jpg, .jpeg, .png" required>
+            <small class="form-text text-muted">Only JPG, JPEG, and PNG files are allowed.</small>
+        </div>
+
+        <button type="submit" class="btn btn-custom btn-block">Add Genre</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

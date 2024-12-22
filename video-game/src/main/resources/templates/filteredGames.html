@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommended Games</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Recommended Games</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Game Title</th>
+            <th>Description</th>
+            <th>Developer</th>
+            <th>Release Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="game : ${recommendedGames}">
+            <td th:text="${game.title}"></td>
+            <td th:text="${game.description}"></td>
+            <td th:text="${game.developer}"></td>
+            <td th:text="${#dates.format(game.releaseDate, 'yyyy-MM-dd')}"></td> <!-- Format tanggal -->
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

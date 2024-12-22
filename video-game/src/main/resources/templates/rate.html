@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rate a Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Rate a Game</h1>
+    <form th:action="@{/rate}" th:object="${ratingDTO}" method="post">
+        <div class="form-group">
+            <label for="userId">User ID</label>
+            <input type="number" class="form-control" id="userId" th:field="*{userId}" required>
+        </div>
+        <div class="form-group">
+            <label for="gameId">Select Game</label>
+            <select class="form-control" id="gameId" th:field="*{gameId}" required>
+                <option value="" disabled selected>Pilih game</option>
+                <option th:each="game : ${games}"
+                        th:value="${game.id}"
+                        th:text="${game.title}">Game Title</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ratingValue">Rating Value (1-5)</label>
+            <input type="number" class="form-control" id="ratingValue" th:field="*{ratingValue}" min="1" max="5" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Rating</button>
+    </form>
+</div>
+</body>
+</html>

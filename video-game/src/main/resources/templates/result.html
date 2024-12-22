@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rating Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Result</h1>
+    <div class="alert alert-success" role="alert" th:text="${message}"></div>
+    <a href="/rate" class="btn btn-primary">Rate Another Game</a>
+</div>
+</body>
+</html>

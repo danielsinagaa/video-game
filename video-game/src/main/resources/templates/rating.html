@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rate a Game</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Rate a Game</h2>
+    <form th:action="@{/rate}" method="post">
+        <div class="form-group">
+            <label for="userId">User ID</label>
+            <input type="number" class="form-control" id="userId" name="userId" placeholder="Enter your User ID" required>
+        </div>
+        <div class="form-group">
+            <label for="gameId">Select Game</label>
+            <select class="form-control" id="gameId" name="gameId" required>
+                <option value="">Select Game</option>
+                <option th:each="game : ${games}"
+                        th:value="${game.id}"
+                        th:text="${game.title}"> <!-- Pastikan menggunakan title untuk nama game -->
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ratingValue">Rating (1-5)</label>
+            <select class="form-control" id="ratingValue" name="ratingValue" required>
+                <option value="">Select Rating</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Rating</button>
+    </form>
+
+    <div th:if="${message}" class="alert alert-success mt-3" role="alert">
+        <span th:text="${message}"></span>
+    </div>
+</div>
+</body>
+</html>

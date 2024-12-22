@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Example</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        /* Body background color */
+        body {
+            background-color: #cd6155;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Navbar custom styles */
+        .navbar {
+            background-color: black;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        /* Navbar links style */
+        .navbar .navbar-nav .nav-item .nav-link {
+            color: #cd6155;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        .navbar .navbar-brand {
+            color: #cd6155;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Center the title properly */
+        .navbar .navbar-brand {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        /* Navbar text hover effect */
+        .navbar .navbar-nav .nav-item .nav-link:hover,
+        .navbar .navbar-brand:hover {
+            color: white;
+        }
+
+        /* Genre List on the right side */
+        .genre-list {
+            position: fixed;
+            top: 56px;
+            right: 0;
+            height: calc(100% - 56px);
+            background-color: #3B1C32;
+            box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            overflow-y: auto;
+            width: 250px;
+        }
+
+        /* Style each genre item */
+        .genre-item {
+            color: white;
+            font-size: 18px;
+            display: block;
+            margin: 10px 0;
+            background-color: black; /* Black background for genre */
+            padding: 10px;
+            border-radius: 5px;
+            background-size: cover;
+            background-position: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .genre-item:hover {
+            color: white;
+            background-color: black;
+        }
+
+        .btn-add-genre {
+            background-color: #cd6155;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .btn-add-game {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 5px 5px;
+            width: 15%;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        .btn-add-genre:hover {
+            background-color: #c0392b;
+        }
+
+        /* Custom search bar style */
+        .search-bar {
+            margin-top: 70px; /* Adds spacing below the navbar */
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .add-game {
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .search-bar input {
+            width: 30%;  /* Reduce the width */
+            padding: 10px 12px;  /* Smaller padding */
+            font-size: 18px;   /* Smaller font size */
+            border-radius: 5px;
+            border: 2px solid #cd6155;
+        }
+
+        .search-results {
+            margin-top: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 20px;
+        }
+
+        .search-bar button {
+            padding: 8px 12px;  /* Smaller padding */
+            background-color: black;
+            color: white;
+            font-size: 18px;   /* Smaller font size */
+            border: none;
+            border-radius: 5px;
+            margin-left: -5px;
+        }
+
+        .search-bar button:hover {
+            background-color: #3B1C32;
+        }
+        .search-results-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .search-result-card {
+            background-color: #3B1C32;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 185px;
+            text-align: center;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .game-genre {
+            display: flex;
+            flex-wrap: wrap;   /* Membungkus genre yang panjang */
+            justify-content: center;
+            font-size: 14px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .game-genre span {
+            margin-right: 5px;  /* Memberikan sedikit jarak antar genre */
+            margin-bottom: 5px; /* Memberikan jarak ke bawah agar genre berikutnya tidak saling bertumpuk */
+            word-wrap: break-word;  /* Memungkinkan kata yang panjang dibungkus */
+            white-space: normal;    /* Membolehkan pembungkusan kata */
+        }
+
+
+        .search-result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .result-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .result-info {
+            padding: 15px;
+        }
+
+        .game-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .game-developer,
+        .game-genre,
+        .game-rating {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .game-genre span {
+            display: inline-block; /* Menjadikan elemen inline-block agar bisa dibungkus */
+            margin-right: 5px;     /* Memberikan sedikit jarak antar genre */
+            white-space: normal;   /* Membolehkan genre membungkus ke baris berikutnya */
+            word-wrap: break-word; /* Memungkinkan teks panjang dibungkus */
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar with navbar-dark to ensure text is visible on dark background -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- Left Side: Home, Game -->
+    <div class="navbar-nav">
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/home(username=${username}, email=${email})}">Home</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/game(username=${username}, email=${email})}">Game</a>
+    </div>
+
+    <!-- Center: Your Game Recommendation System -->
+    <a style="font-size: 20px;" class="navbar-brand" href="#" th:href="@{/}">Your Game Recommendation System</a>
+
+    <!-- Right Side: Profile, Log Out -->
+    <div class="navbar-nav ml-auto">
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/profile(username=${username}, email=${email})}">Profile</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/logout}">Log out</a>
+    </div>
+</nav>
+
+<!-- Search bar below navbar -->
+<div class="search-bar">
+    <form th:action="@{/game(username=${username}, email=${email})}" method="get">
+        <input type="text" placeholder="Search for a game..." name="search" value="" th:value="${searchQuery}">
+        <input type="hidden" name="username" th:value="${username}">
+        <input type="hidden" name="email" th:value="${email}">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div class="add-game">
+    <a th:href="@{/game/add(username=${username}, email=${email})}" class="btn-add-game" th:if="${role}">Add Game +</a>
+</div>
+
+<div class="search-results">
+    <div th:if="${searchResults}">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex flex-wrap justify-content-start">
+                    <div class="p-2" style="width: 18%;" th:each="game : ${searchResults}">
+                        <!-- Wrap the entire card inside an anchor tag -->
+                        <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
+                            <div class="search-result-card">
+                                <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
+                                     alt="Game Image" class="result-image">
+                                <div class="result-info">
+                                    <h5 class="game-title" th:text="${game.getTitle()}"></h5>
+                                    <p class="game-developer">
+                                        <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
+                                    </p>
+                                    <p class="game-genre">
+                                        <strong>Genre:</strong>
+                                        <span th:each="genre : ${game.getGenres()}"
+                                              th:text="${genre}"
+                                              th:if="${genre != null}">Action</span>
+                                    </p>
+                                    <p class="game-rating">
+                                        <strong>Rating:</strong>
+                                        <span th:text="${game.getRating()}"></span> out of
+                                        <span th:text="${game.getRatingSum()}"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="search-results">
+    <div th:if="${genreSearch}">
+        <div class="search-results-container d-flex justify-content-center flex-wrap">
+            <div class="search-result-card" th:each="game : ${genreSearch}">
+                <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
+                    <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
+                         alt="Game Image" class="result-image">
+                    <div class="result-info">
+                        <h5 class="game-title" th:text="${game.getTitle()}"></h5>
+                        <p class="game-developer">
+                            <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
+                        </p>
+                        <p class="game-genre">
+                            <strong>Genre:</strong>
+                            <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
+                        </p>
+                        <p class="game-rating">
+                            <strong>Rating:</strong>
+                            <span th:text="${game.getRating()}"></span> out of
+                            <span th:text="${game.getRatingSum()}"></span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="search-results">
+    <h5 class="text-center" style="font-size: 18px; color: black; font-weight: bold;">GAME RECOMMENDATION : </h5>
+    <div th:if="${hybridFilter}">
+        <div class="search-results-container d-flex justify-content-center flex-wrap">
+            <div class="search-result-card" th:each="game : ${hybridFilter}">
+                <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
+                    <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
+                         alt="Game Image" class="result-image">
+                    <div class="result-info">
+                        <h5 class="game-title" th:text="${game.getTitle()}"></h5>
+                        <p class="game-developer">
+                            <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
+                        </p>
+                        <p class="game-genre">
+                            <strong>Genre:</strong>
+                            <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
+                        </p>
+                        <p class="game-rating">
+                            <strong>Rating:</strong>
+                            <span th:text="${game.getRating()}"></span> out of
+                            <span th:text="${game.getRatingSum()}"></span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="search-results">
+    <h5 class="text-center" style="font-size: 18px; color: black; font-weight: bold;">OTHER GAMES :</h5>
+    <div th:if="${otherGames}">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex flex-wrap justify-content-start">
+                    <div class="p-2" style="width: 18%;" th:each="game : ${otherGames}">
+                        <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
+                            <div class="search-result-card">
+                                <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
+                                     alt="Game Image" class="result-image">
+                                <div class="result-info">
+                                    <h5 class="game-title" th:text="${game.getTitle()}"></h5>
+                                    <p class="game-developer">
+                                        <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
+                                    </p>
+                                    <p class="game-genre">
+                                        <strong>Genre:</strong>
+                                        <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
+                                    </p>
+                                    <p class="game-rating">
+                                        <strong>Rating:</strong>
+                                        <span th:text="${game.getRating()}"></span> out of
+                                        <span th:text="${game.getRatingSum()}"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Genre List on the right side -->
+<div class="genre-list">
+    <h5 style="font-size: 18px; color: #cd6155; font-weight: bold;">Genres</h5>
+
+    <!-- Add Genre button -->
+    <a th:href="@{/genre/add(username=${username}, email=${email})}" class="btn-add-genre" th:if="${role}">Add Genre</a>
+
+    <!-- Thymeleaf loop to display genres -->
+    <a class="genre-item" th:each="genre : ${genres}" th:href="@{/genre/game(id=${genre.id}, username=${username}, email=${email})}"
+       th:style="|background-image: url(data:image/jpeg;base64,${genre.getGenreImage64()}); color: white; font-weight: bold; text-shadow: 1px 1px 2px black; display: block; margin: 10px 0; padding: 10px; border-radius: 5px; background-color: black;|">
+        <span th:text="${genre.name}"></span>
+    </a>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
