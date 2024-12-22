@@ -2,36 +2,29 @@ package com.hybrid.filter.video_game.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
-
-@Data
+@Entity
+@Table(name = "tb_game_genre")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "game_genre")
 public class GameGenre {
-    @EmbeddedId
-    private GameGenreId id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
-    @MapsId("gameId")
-    @JoinColumn(name = "game_id")
-    private Game game;
+    @JoinColumn(name = "game_id", referencedColumnName = "id", nullable = false)
+    private Game game; // Assuming a `Game` entity exists
 
     @ManyToOne
-    @MapsId("genreId")
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    @JoinColumn(name = "genre_id", referencedColumnName = "id", nullable = false)
+    private Genre genre; // Assuming a `Genre` entity exists
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Embeddable
-    public static class GameGenreId implements Serializable {
-        private Integer gameId;
-        private Integer genreId;
-    }
 }
+

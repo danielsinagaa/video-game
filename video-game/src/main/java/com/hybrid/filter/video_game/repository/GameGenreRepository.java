@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GameGenreRepository extends JpaRepository<GameGenre, GameGenre.GameGenreId> {
-    // Custom query methods can be added here if needed
-    List<GameGenre> findByGameId(Integer game_id);
-    List<GameGenre> findByGenreId(Integer game_id);
+public interface GameGenreRepository extends JpaRepository<GameGenre, Integer> {
+    // Metode untuk mendapatkan data berdasarkan game_id atau genre_id
+    List<GameGenre> findByGameId(Integer gameId);
+    List<GameGenre> findByGenreId(Integer genreId);
 }

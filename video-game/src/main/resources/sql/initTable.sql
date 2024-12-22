@@ -42,3 +42,12 @@ CREATE TABLE IF NOT EXISTS `game_genre` (
     FOREIGN KEY (`game_id`) REFERENCES `game`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`genre_id`) REFERENCES `genre`(`id`) ON DELETE CASCADE
     );
+
+-- Tabel penghubung antara game dan genre
+CREATE TABLE IF NOT EXISTS `tb_game_genre` (
+                                               `id` INT AUTO_INCREMENT PRIMARY KEY,
+                                               `game_id` INT NOT NULL,
+                                               `genre_id` INT NOT NULL,
+                                               FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genre(id) ON DELETE CASCADE
+    );

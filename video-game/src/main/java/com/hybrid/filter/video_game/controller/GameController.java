@@ -149,13 +149,13 @@ public class GameController {
         }
 
         // Simpan game menggunakan GameService atau repository
-        gameService.save(game);
-        selectedGenres.forEach(it -> {
+        Game saveGame = gameService.save(game);
+        for (Genre it : selectedGenres) {
             GameGenre gameGenre = new GameGenre();
-            gameGenre.setGame(game);
+            gameGenre.setGame(saveGame);
             gameGenre.setGenre(it);
             gameGenreRepository.save(gameGenre);
-        });
+        }
 
         // Kembali ke halaman daftar game atau halaman sukses
         model.addAttribute("username", username);
