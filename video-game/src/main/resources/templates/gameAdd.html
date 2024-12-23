@@ -95,6 +95,23 @@
             <input type="text" id="developer" name="developer" class="form-control" placeholder="Enter game developer name" required>
         </div>
 
+        <!-- Steam Link -->
+        <div class="form-group">
+            <label for="steamLink">Steam Link</label>
+            <input type="url" id="steamLink" name="steamLink" class="form-control" placeholder="Enter Steam link" required>
+        </div>
+
+        <!-- Price -->
+        <div class="form-group">
+            <label for="price">Price</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="number" id="price" name="price" class="form-control" placeholder="Enter game price" min="0" step="0.01" required>
+            </div>
+        </div>
+
         <!-- Genre Dropdowns -->
         <div class="form-group">
             <label for="genre1">Genre 1</label>

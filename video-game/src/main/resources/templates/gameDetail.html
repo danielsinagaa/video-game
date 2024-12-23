@@ -122,6 +122,16 @@
                         <span th:each="genre : ${gameDTO.genres}" th:text="${genre}">Genre</span>
                     </div>
 
+                    <div class="text-colors mt-2">
+                        <strong>Price:</strong>
+                        <span th:text="'\u0024' + ${gameDTO.price}"></span>
+                    </div>
+
+                    <div class="text-colors mt-3">
+                        <strong>Steam Link:</strong>
+                        <a th:href="${gameDTO.steamLink}" target="_blank" th:text="${gameDTO.steamLink}">Steam Link</a>
+                    </div>
+
                     <div class="text-colors mt-3">
                         <strong>Rating:</strong>
                         <span th:text="${gameDTO.rating}"></span> /

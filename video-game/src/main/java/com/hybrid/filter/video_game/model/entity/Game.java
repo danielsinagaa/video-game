@@ -38,6 +38,12 @@ public class Game {
     @Column(name = "game_image")
     private byte[] gameImage;
 
+    @Column(name = "steam_link")
+    private String steamLink;
+
+    @Column
+    private Double price;
+
     @ManyToMany
     @JoinTable(
             name = "game_genre",

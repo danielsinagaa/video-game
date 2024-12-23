@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `genre` (
                                        `id` INT AUTO_INCREMENT PRIMARY KEY,
                                        `name` VARCHAR(50) NOT NULL,
-                                        `genre_image` mediumblob
+                                        `genre_image` MEDIUMBLOB
     );
 
 -- Tabel game
@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS `game` (
     `description` TEXT,
     `release_date` DATE,
     `developer` VARCHAR(100),
-    `game_image` mediumblob
+    `game_image` MEDIUMBLOB,
+    `price` DOUBLE,
+    `steam_link` VARCHAR(255)
     );
 
 -- Tabel rating

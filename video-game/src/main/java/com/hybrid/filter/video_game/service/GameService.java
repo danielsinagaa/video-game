@@ -111,6 +111,8 @@ public class GameService {
             gameDTO.setDescription(it.getDescription());
             gameDTO.setReleaseDate(it.getReleaseDate());
             gameDTO.setImage(Base64.getEncoder().encodeToString(it.getGameImage()));
+            gameDTO.setSteamLink(it.getSteamLink());
+            gameDTO.setPrice(it.getPrice());
             List<Rating> ratings = ratingService.getRating(it.getId());
             if(ratings.isEmpty()) {
                 gameDTO.setRating(0.0);
@@ -147,6 +149,8 @@ public class GameService {
             gameDTO.setDescription(it.getDescription());
             gameDTO.setReleaseDate(it.getReleaseDate());
             gameDTO.setImage(Base64.getEncoder().encodeToString(it.getGameImage()));
+            gameDTO.setSteamLink(it.getSteamLink());
+            gameDTO.setPrice(it.getPrice());
             List<Rating> ratings = ratingService.getRating(it.getId());
             if(ratings.isEmpty()) {
                 gameDTO.setRating(0.0);

@@ -103,6 +103,8 @@ public class GameController {
                           @RequestParam(value = "genre3", required = false) Integer genreId3,  // ID genre ketiga
                           @RequestParam(value = "genre4", required = false) Integer genreId4,  // ID genre keempat
                           @RequestParam("gameImage") MultipartFile gameImage,  // File gambar
+                          @RequestParam("steamLink") String steamLink,
+                          @RequestParam("price") Double price,
                           Model model) {
 
         // Ambil genre berdasarkan ID
@@ -132,6 +134,8 @@ public class GameController {
         game.setDescription(description);
         game.setReleaseDate(Date.valueOf(releaseDate));  // Convert String ke Date
         game.setDeveloper(developer);
+        game.setSteamLink(steamLink);
+        game.setPrice(price);
 
         // Set genre ke game
         game.setGenres(selectedGenres);

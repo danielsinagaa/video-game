@@ -268,30 +268,37 @@
             <div class="row">
                 <div class="col-12 d-flex flex-wrap justify-content-start">
                     <div class="p-2" style="width: 18%;" th:each="game : ${searchResults}">
-                        <!-- Wrap the entire card inside an anchor tag -->
-                        <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
-                            <div class="search-result-card">
+                        <div class="search-result-card">
+                            <!-- Wrap only the image inside the anchor tag -->
+                            <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
                                 <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
                                      alt="Game Image" class="result-image">
-                                <div class="result-info">
-                                    <h5 class="game-title" th:text="${game.getTitle()}"></h5>
-                                    <p class="game-developer">
-                                        <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
-                                    </p>
-                                    <p class="game-genre">
-                                        <strong>Genre:</strong>
-                                        <span th:each="genre : ${game.getGenres()}"
-                                              th:text="${genre}"
-                                              th:if="${genre != null}">Action</span>
-                                    </p>
-                                    <p class="game-rating">
-                                        <strong>Rating:</strong>
-                                        <span th:text="${game.getRating()}"></span> out of
-                                        <span th:text="${game.getRatingSum()}"></span>
-                                    </p>
+                            </a>
+                            <div class="result-info">
+                                <h5 class="game-title" th:text="${game.getTitle()}"></h5>
+                                <p class="game-developer">
+                                    <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
+                                </p>
+                                <div class="text-colors">
+                                    <strong>Price:</strong>
+                                    <span th:text="'$' + ${game.getPrice()}"></span>
                                 </div>
+                                <div class="text-colors">
+                                    <strong>Steam Link:</strong>
+                                    <a th:href="${game.steamLink}" target="_blank">Click here</a>
+                                </div>
+                                <p class="game-genre">
+                                    <strong>Genre:</strong>
+                                    <span th:each="genre : ${game.getGenres()}"
+                                          th:text="${genre}" th:if="${genre != null}">Action</span>
+                                </p>
+                                <p class="game-rating">
+                                    <strong>Rating:</strong>
+                                    <span th:text="${game.getRating()}"></span> out of
+                                    <span th:text="${game.getRatingSum()}"></span>
+                                </p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -304,17 +311,29 @@
     <div th:if="${hybridFilter}">
         <div class="search-results-container d-flex justify-content-center flex-wrap">
             <div class="search-result-card" th:each="game : ${hybridFilter}">
-                <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
-                    <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
-                         alt="Game Image" class="result-image">
+                <div class="search-result-card">
+                    <!-- Wrap only the image inside the anchor tag -->
+                    <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
+                        <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
+                             alt="Game Image" class="result-image">
+                    </a>
                     <div class="result-info">
                         <h5 class="game-title" th:text="${game.getTitle()}"></h5>
                         <p class="game-developer">
                             <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
                         </p>
+                        <div class="text-colors mt-2">
+                            <strong>Price:</strong>
+                            <span th:text="'$' + ${game.getPrice()}"></span>
+                        </div>
+                        <div class="text-colors mt-3">
+                            <strong>Steam Link:</strong>
+                            <a th:href="${game.steamLink}" target="_blank">Click here</a>
+                        </div>
                         <p class="game-genre">
                             <strong>Genre:</strong>
-                            <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
+                            <span th:each="genre : ${game.getGenres()}"
+                                  th:text="${genre}" th:if="${genre != null}">Action</span>
                         </p>
                         <p class="game-rating">
                             <strong>Rating:</strong>
@@ -322,7 +341,7 @@
                             <span th:text="${game.getRatingSum()}"></span>
                         </p>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </div>
@@ -335,27 +354,37 @@
             <div class="row">
                 <div class="col-12 d-flex flex-wrap justify-content-start">
                     <div class="p-2" style="width: 18%;" th:each="game : ${otherGames}">
-                        <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
-                            <div class="search-result-card">
+                        <div class="search-result-card">
+                            <!-- Wrap only the image inside the anchor tag -->
+                            <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
                                 <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
                                      alt="Game Image" class="result-image">
-                                <div class="result-info">
-                                    <h5 class="game-title" th:text="${game.getTitle()}"></h5>
-                                    <p class="game-developer">
-                                        <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
-                                    </p>
-                                    <p class="game-genre">
-                                        <strong>Genre:</strong>
-                                        <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
-                                    </p>
-                                    <p class="game-rating">
-                                        <strong>Rating:</strong>
-                                        <span th:text="${game.getRating()}"></span> out of
-                                        <span th:text="${game.getRatingSum()}"></span>
-                                    </p>
+                            </a>
+                            <div class="result-info">
+                                <h5 class="game-title" th:text="${game.getTitle()}"></h5>
+                                <p class="game-developer">
+                                    <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
+                                </p>
+                                <div class="text-colors">
+                                    <strong>Price:</strong>
+                                    <span th:text="'$' + ${game.getPrice()}"></span>
                                 </div>
+                                <div class="text-colors">
+                                    <strong>Steam Link:</strong>
+                                    <a th:href="${game.steamLink}" target="_blank">Click here</a>
+                                </div>
+                                <p class="game-genre">
+                                    <strong>Genre:</strong>
+                                    <span th:each="genre : ${game.getGenres()}"
+                                          th:text="${genre}" th:if="${genre != null}">Action</span>
+                                </p>
+                                <p class="game-rating">
+                                    <strong>Rating:</strong>
+                                    <span th:text="${game.getRating()}"></span> out of
+                                    <span th:text="${game.getRatingSum()}"></span>
+                                </p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
