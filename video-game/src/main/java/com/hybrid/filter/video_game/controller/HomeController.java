@@ -2,10 +2,12 @@ package com.hybrid.filter.video_game.controller;
 
 import com.hybrid.filter.video_game.model.dto.GameDTO;
 import com.hybrid.filter.video_game.model.dto.GenreDTO;
+import com.hybrid.filter.video_game.model.dto.GenreFilterDTO;
 import com.hybrid.filter.video_game.model.entity.User;
 import com.hybrid.filter.video_game.service.GameService;
 import com.hybrid.filter.video_game.service.GenreService;
 import com.hybrid.filter.video_game.service.UserService;
+import com.hybrid.filter.video_game.service.filter.genre.HybridFilterGenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,9 @@ public class HomeController {
 
     @Autowired
     private GenreService genreService;
+
+    @Autowired
+    private HybridFilterGenreService hybridFilterGenreService;
 
     @GetMapping("/home")
     public String home(@RequestParam("username") String username, @RequestParam("email") String email, Model model) {
@@ -55,6 +60,9 @@ public class HomeController {
 
         List<GameDTO> otherGames = gameService.getOtherGames(user.getId());
         model.addAttribute("otherGames", otherGames);
+
+        List<GenreFilterDTO> hybridGenre = hybridFilterGenreService.genreFilter(user.getId());
+        model.addAttribute("hybridGenre", hybridGenre);
 
         return "home";
     }

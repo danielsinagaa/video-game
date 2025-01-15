@@ -23,9 +23,8 @@ public class Collaborative {
     private UserRepository userRepository;
 
     public List<Game> recommendGamesBasedOnCollaboration(Integer userId) {
-        // Validasi userId
-        if (userId == null || !userExists(userId)) {
-            throw new IllegalArgumentException("Invalid user ID");
+        if (userId == null) {
+            userId = 0;
         }
 
         // 1. Mendapatkan semua rating dari pengguna yang meminta rekomendasi

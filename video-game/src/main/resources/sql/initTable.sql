@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `genre` (
                                        `id` INT AUTO_INCREMENT PRIMARY KEY,
                                        `name` VARCHAR(50) NOT NULL,
-                                        `genre_image` MEDIUMBLOB
+    `genre_image` MEDIUMBLOB
     );
 
 -- Tabel game

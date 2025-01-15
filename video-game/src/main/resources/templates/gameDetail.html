@@ -123,8 +123,13 @@
                     </div>
 
                     <div class="text-colors mt-2">
+                        <strong>Developer:</strong>
+                        <span th:text=" ${gameDTO.developer}"></span>
+                    </div>
+
+                    <div class="text-colors mt-2">
                         <strong>Price:</strong>
-                        <span th:text="'\u0024' + ${gameDTO.price}"></span>
+                        <span th:text="'Rp.' + ${gameDTO.price}"></span>
                     </div>
 
                     <div class="text-colors mt-3">

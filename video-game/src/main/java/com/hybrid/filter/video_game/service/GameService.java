@@ -10,6 +10,7 @@ import com.hybrid.filter.video_game.service.filter.HybridFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,6 +52,8 @@ public class GameService {
         gameDTO.setTitle(game.getTitle());
         gameDTO.setDeveloper(game.getDeveloper());
         gameDTO.setDescription(game.getDescription());
+        gameDTO.convertRupiah(game.getPrice());
+        gameDTO.setSteamLink(game.getSteamLink());
         Date releaseDate = game.getReleaseDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(releaseDate);
@@ -112,7 +115,7 @@ public class GameService {
             gameDTO.setReleaseDate(it.getReleaseDate());
             gameDTO.setImage(Base64.getEncoder().encodeToString(it.getGameImage()));
             gameDTO.setSteamLink(it.getSteamLink());
-            gameDTO.setPrice(it.getPrice());
+            gameDTO.convertRupiah(it.getPrice());
             List<Rating> ratings = ratingService.getRating(it.getId());
             if(ratings.isEmpty()) {
                 gameDTO.setRating(0.0);
@@ -150,7 +153,7 @@ public class GameService {
             gameDTO.setReleaseDate(it.getReleaseDate());
             gameDTO.setImage(Base64.getEncoder().encodeToString(it.getGameImage()));
             gameDTO.setSteamLink(it.getSteamLink());
-            gameDTO.setPrice(it.getPrice());
+            gameDTO.convertRupiah(it.getPrice());
             List<Rating> ratings = ratingService.getRating(it.getId());
             if(ratings.isEmpty()) {
                 gameDTO.setRating(0.0);
@@ -166,6 +169,10 @@ public class GameService {
             gameResponse.add(gameDTO);
         });
         return gameResponse;
+    }
+
+    private String convertRupiah(double price){
+        return new DecimalFormat("#,###").format(price);
     }
 
 

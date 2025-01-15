@@ -8,11 +8,11 @@ import com.hybrid.filter.video_game.service.GameService;
 import com.hybrid.filter.video_game.service.GenreService;
 import com.hybrid.filter.video_game.service.RatingService;
 import com.hybrid.filter.video_game.service.UserService;
+import com.hybrid.filter.video_game.service.filter.genre.HybridFilterGenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -41,6 +40,9 @@ public class GameController {
 
     @Autowired
     private GameGenreRepository gameGenreRepository;
+
+    @Autowired
+    private HybridFilterGenreService hybridFilterGenreService;
 
     @GetMapping("/game")
     public String game(@RequestParam("username") String username,
@@ -76,6 +78,8 @@ public class GameController {
 
         List<GameDTO> otherGames = gameService.getOtherGames(user.getId());
         model.addAttribute("otherGames", otherGames);
+
+        model.addAttribute("hybridGenre", hybridFilterGenreService.genreFilter(user.getId()));
 
         return "game";
     }

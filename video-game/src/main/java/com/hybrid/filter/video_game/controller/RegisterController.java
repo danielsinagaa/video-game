@@ -1,7 +1,6 @@
 package com.hybrid.filter.video_game.controller;
 
 import com.hybrid.filter.video_game.model.entity.User;
-import com.hybrid.filter.video_game.repository.UserRepository;
 import com.hybrid.filter.video_game.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

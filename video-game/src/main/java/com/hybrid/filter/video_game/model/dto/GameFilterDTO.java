@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameDTO {
+public class GameFilterDTO {
     private int id;
     private String title;
     private String description;
@@ -24,10 +24,8 @@ public class GameDTO {
     private String steamLink;
     private Double priceDouble;
     private String price;
-    
-    
+
     public void convertRupiah(Double price){
         this.price = new DecimalFormat("#,###").format(price);
     }
 }
-

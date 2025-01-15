@@ -51,7 +51,7 @@ public class HybridFilterService {
     }
 
     // Menghitung skor popularitas game berdasarkan rata-rata rating dan jumlah rating
-    private double calculateGameScore(Game game) {
+    public double calculateGameScore(Game game) {
         List<Rating> ratings = ratingRepository.findByGameId(game.getId());
         long ratingCount = ratings.size();
 

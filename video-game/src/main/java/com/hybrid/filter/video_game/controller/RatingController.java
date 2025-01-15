@@ -2,15 +2,13 @@ package com.hybrid.filter.video_game.controller;
 
 import com.hybrid.filter.video_game.model.dto.RatingDTO;
 import com.hybrid.filter.video_game.model.entity.Game;
-import com.hybrid.filter.video_game.model.entity.Rating;
-import com.hybrid.filter.video_game.model.model.RatingForm;
 import com.hybrid.filter.video_game.repository.GameRepository;
 import com.hybrid.filter.video_game.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 

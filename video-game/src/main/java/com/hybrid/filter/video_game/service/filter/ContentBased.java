@@ -23,6 +23,10 @@ public class ContentBased {
 
     // Content-Based Filtering
     public List<Game> recommendGamesBasedOnContent(Integer userId) {
+        if (userId == null) {
+            userId = 0;
+        }
+
         // 1. Mendapatkan semua rating dari pengguna
         List<Rating> userRatings = ratingRepository.findByUserId(userId);
 
