@@ -63,6 +63,13 @@ public class GenreController {
         model.addAttribute("username", username);
         model.addAttribute("email", email);
         User user = userService.getUserByUsername(username);
+        if (user == null) {
+            user = new User();
+            user.setId(0);
+            user.setUsername("");
+            user.setPassword("");
+            user.setRole(false);
+        }
         model.addAttribute("role", user.getRole());
 
         List<GameDTO> searchResults = gameService.searchByName(searchQuery); // Mendapatkan hasil pencarian game

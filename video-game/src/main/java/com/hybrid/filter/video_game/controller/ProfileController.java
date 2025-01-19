@@ -30,6 +30,13 @@ public class ProfileController {
         model.addAttribute("email", email);
 
         User user = userService.getUserByUsername(username);
+        if (user == null) {
+            user = new User();
+            user.setId(0);
+            user.setUsername("");
+            user.setPassword("");
+            user.setRole(false);
+        }
         List<Rating> rating = ratingService.findByUserId(user.getId());
 
         model.addAttribute("user", user);

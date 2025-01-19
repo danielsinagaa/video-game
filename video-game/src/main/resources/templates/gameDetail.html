@@ -149,17 +149,23 @@
 
                     <div class="mt-4">
                         <h5>Your Rating:</h5>
-                        <div th:if="${rating != null}">
-                            <p>You rated this game: <strong th:text="${rating.ratingValue}"></strong></p>
+                        <div th:if="${username != null and username != '' and email != null and email != ''}">
+                            <div th:if="${rating != null}">
+                                <p>You rated this game: <strong th:text="${rating.ratingValue}"></strong></p>
+                            </div>
+                            <div th:if="${rating == null}">
+                                <p>You haven't rated this game yet.</p>
+                            </div>
+                            <div>
+                                <form th:action="@{/game/rate(username=${username}, email=${email}, gameId=${gameId}, rating=${rating})}" method="post" class="form-rating">
+                                    <input type="number" name="ratingValue" class="form-control" min="1" max="5" placeholder="Rate this game (1-5)" required>
+                                    <button type="submit" class="btn submit-btn mt-3">Submit Rating</button>
+                                </form>
+                            </div>
                         </div>
-                        <div th:if="${rating == null}">
-                            <p>You haven't rated this game yet.</p>
-                        </div>
-                        <div>
-                            <form th:action="@{/game/rate(username=${username}, email=${email}, gameId=${gameId}, rating=${rating})}" method="post" class="form-rating">
-                                <input type="number" name="ratingValue" class="form-control" min="1" max="5" placeholder="Rate this game (1-5)" required>
-                                <button type="submit" class="btn submit-btn mt-3">Submit Rating</button>
-                            </form>
+                        <div th:if="${username == null or username == '' or email == null or email == ''}">
+                            <p>You need to log in to rate this game.</p>
+                            <a th:href="@{/login}" class="btn btn-primary mt-3">Login</a>
                         </div>
                     </div>
                 </div>

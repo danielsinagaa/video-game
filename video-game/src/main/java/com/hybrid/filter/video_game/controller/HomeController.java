@@ -3,6 +3,7 @@ package com.hybrid.filter.video_game.controller;
 import com.hybrid.filter.video_game.model.dto.GameDTO;
 import com.hybrid.filter.video_game.model.dto.GenreDTO;
 import com.hybrid.filter.video_game.model.dto.GenreFilterDTO;
+import com.hybrid.filter.video_game.model.dto.TopGenreFilterDTO;
 import com.hybrid.filter.video_game.model.entity.User;
 import com.hybrid.filter.video_game.service.GameService;
 import com.hybrid.filter.video_game.service.GenreService;
@@ -32,37 +33,47 @@ public class HomeController {
     @Autowired
     private HybridFilterGenreService hybridFilterGenreService;
 
+    @GetMapping("/home-guest")
+    public String homeGuest(Model model) {
+
+        List<TopGenreFilterDTO> genres = genreService.getTop5GamesByGenre();
+
+        // Menambahkan data genre dan user ke model
+        model.addAttribute("genres", genres);
+        User user = new User();
+        user.setId(0);
+        user.setUsername("");
+        user.setPassword("");
+        user.setRole(false);
+
+        model.addAttribute("role", user.getRole());
+
+
+        return "home";
+    }
+
     @GetMapping("/home")
     public String home(@RequestParam("username") String username, @RequestParam("email") String email, Model model) {
         // Menambahkan username dan email ke model untuk diteruskan ke halaman
         model.addAttribute("username", username);
         model.addAttribute("email", email);
 
-        List<GenreDTO> genres = genreService.getAllGenresDTO();
-        for (GenreDTO genre : genres) {
-            byte[] genreImage = genre.getGenreImage();
-            String base64Image = null;
-            if (genreImage != null) {
-                base64Image = Base64.getEncoder().encodeToString(genreImage);
-            }
-            genre.setGenreImage64(base64Image);
-        }
+        List<TopGenreFilterDTO> genres = genreService.getTop5GamesByGenre();
 
         // Menambahkan data genre dan user ke model
         model.addAttribute("genres", genres);
         model.addAttribute("username", username);
         model.addAttribute("email", email);
         User user = userService.getUserByUsername(username);
+        if (user == null) {
+            user = new User();
+            user.setId(0);
+            user.setUsername("");
+            user.setPassword("");
+            user.setRole(false);
+        }
         model.addAttribute("role", user.getRole());
 
-        List<GameDTO> hybridFilter = gameService.hybridFilter(user.getId());
-        model.addAttribute("hybridFilter", hybridFilter);
-
-        List<GameDTO> otherGames = gameService.getOtherGames(user.getId());
-        model.addAttribute("otherGames", otherGames);
-
-        List<GenreFilterDTO> hybridGenre = hybridFilterGenreService.genreFilter(user.getId());
-        model.addAttribute("hybridGenre", hybridGenre);
 
         return "home";
     }

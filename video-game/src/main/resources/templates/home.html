@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navbar Example</title>
+    <title>Game Recommendation System</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <style>
@@ -31,7 +31,6 @@
             font-weight: bold; /* Optional: Make brand text bold */
         }
 
-        /* Center the title properly */
         .navbar .navbar-brand {
             flex-grow: 1; /* Ensures it is centered */
             text-align: center;
@@ -40,185 +39,70 @@
         /* Navbar text hover effect */
         .navbar .navbar-nav .nav-item .nav-link:hover,
         .navbar .navbar-brand:hover {
-            color: black; /* Change text color to white on hover */
-        }
-
-        /* Genre List on the right side */
-        .genre-list {
-            position: fixed;
-            top: 56px;
-            right: 0;
-            height: calc(100% - 56px);
-            background-color: #3B1C32;
-            box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            overflow-y: auto;
-            width: 250px;
-        }
-
-        /* Style each genre item */
-        .genre-item {
-            color: white;
-            font-size: 18px;
-            display: block;
-            margin: 10px 0;
-            background-color: black; /* Black background for genre */
-            padding: 10px;
-            border-radius: 5px;
-            background-size: cover;
-            background-position: center;
-            transition: background-color 0.3s ease;
-        }
-
-        .genre-item:hover {
-            color: white;
-            background-color: black;
-        }
-
-        .btn-add-genre {
-            background-color: #cd6155;
             color: black;
-            border: none;
-            padding: 10px 20px;
-            width: 100%;
-            text-align: center;
-            border-radius: 5px;
-            font-size: 18px;
-            margin-top: 20px;
         }
 
-        .btn-add-game {
-            background-color: black;
-            color: white;
-            border: none;
-            padding: 5px 5px;
-            width: 15%;
-            text-align: center;
-            border-radius: 5px;
-            font-size: 18px;
-        }
-
-        .btn-add-genre:hover {
-            background-color: #c0392b;
-        }
-
-        /* Custom search bar style */
-        .search-bar {
-            margin-top: 70px; /* Adds spacing below the navbar */
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .add-game {
-            margin-bottom: 5px;
-            text-align: center;
-        }
-
-        .search-bar input {
-            width: 30%;  /* Reduce the width */
-            padding: 10px 12px;  /* Smaller padding */
-            font-size: 18px;   /* Smaller font size */
-            border-radius: 5px;
-            border: 2px solid #cd6155;
-        }
-
-        .search-results {
-            margin-top: 20px;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding-bottom: 20px;
-        }
-
-        .search-bar button {
-            padding: 8px 12px;  /* Smaller padding */
-            background-color: black;
-            color: white;
-            font-size: 18px;   /* Smaller font size */
-            border: none;
-            border-radius: 5px;
-            margin-left: -5px;
-        }
-
-        .search-bar button:hover {
+        /* Genre container */
+        .genre-container {
             background-color: #3B1C32;
-        }
-        .search-results-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
-            gap: 10px;
-        }
-
-        .search-result-card {
-            background-color: #3B1C32;
-            color: white;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            width: 185px;
-            text-align: center;
-            transition: transform 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-
-        .game-genre {
-            display: flex;
-            flex-wrap: wrap;   /* Membungkus genre yang panjang */
-            justify-content: center;
-            font-size: 14px;
-            margin-top: 10px;
-            line-height: 1.4;
-        }
-
-        .game-genre span {
-            margin-right: 5px;  /* Memberikan sedikit jarak antar genre */
-            margin-bottom: 5px; /* Memberikan jarak ke bawah agar genre berikutnya tidak saling bertumpuk */
-            word-wrap: break-word;  /* Memungkinkan kata yang panjang dibungkus */
-            white-space: normal;    /* Membolehkan pembungkusan kata */
-        }
-
-        .search-result-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            color: white;
-        }
-
-        .result-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .result-info {
+            margin-bottom: 20px;
             padding: 15px;
         }
 
-        .game-title {
-            font-size: 18px;
+        /* Genre title */
+        .genre-title {
+            color: white;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
-        .game-developer,
-        .game-genre,
-        .game-rating {
-            font-size: 14px;
-            margin: 5px 0;
+        /* Game card styles */
+        .game-card {
+            background-color: black;
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 10px; /* Reduce space between cards */
         }
 
-        .game-title,
-        .game-developer span {
+        .game-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .game-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 5px 0;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: normal;
-            word-wrap: break-word;
-            display: block;
-            max-width: 100%;
+        }
+
+        /* Button to see more games */
+        .see-more {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .see-more a {
+            color: #cd6155;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .see-more a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -241,200 +125,31 @@
     </div>
 </nav>
 
-<div class="search-results">
-    <div th:if="${searchResults}">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 d-flex flex-wrap justify-content-start">
-                    <div class="p-2" style="width: 18%;" th:each="game : ${searchResults}">
-                        <h5 class="game-title" th:text="${game.getTitle()}"></h5>
-                        <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
-                            <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}" alt="Game Image" class="result-image">
-                        </a>
-                        <div class="result-info">
-                            <p class="game-developer">
-                                <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
-                            </p>
-                            <div class="text-colors">
-                                <strong>Price:</strong>
-                                <span th:text="'\u0024' + ${game.price}"></span>
-                            </div>
-                            <div class="text-colors">
-                                <strong>Steam Link:</strong>
-                                <a th:href="${game.steamLink}" target="_blank">Click here</a>
-                            </div>
-                            <p class="game-genre">
-                                <strong>Genre:</strong>
-                                <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
-                            </p>
-                            <p class="game-rating">
-                                <strong>Rating:</strong>
-                                <span th:text="${game.getRating()}"></span> out of
-                                s
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="search-results">
-    <div th:if="${genreSearch}">
-        <div class="search-results-container d-flex justify-content-center flex-wrap">
-            <div class="search-result-card" th:each="game : ${genreSearch}">
-                <h5 class="game-title" th:text="${game.getTitle()}"></h5>
-                <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
-                    <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}" alt="Game Image" class="result-image">
-                </a>
-                <div class="result-info">
-                    <p class="game-developer">
-                        <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
-                    </p>
-                    <div class="text-colors mt-2">
-                        <strong>Price:</strong>
-                        <span th:text="'Rp.' + ${game.getPrice()}"></span>
-                    </div>
-                    <div class="text-colors mt-3">
-                        <strong>Steam Link:</strong>
-                        <a th:href="${game.steamLink}" target="_blank">Click here</a>
-                    </div>
-                    <p class="game-genre">
-                        <strong>Genre:</strong>
-                        <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
-                    </p>
-                    <p class="game-rating">
-                        <strong>Rating:</strong>
-                        <span th:text="${game.getRating()}"></span> out of
-                        <span th:text="${game.getRatingSum()}"></span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="search-results">
-    <h5 class="text-center" style="font-size: 18px; color: black; font-weight: bold;">GAME RECOMMENDATION : </h5>
-    <div th:if="${hybridFilter}">
-        <div class="search-results-container d-flex justify-content-center flex-wrap">
-            <div class="search-result-card" th:each="game : ${hybridFilter}">
-                <h5 class="game-title" th:text="${game.getTitle()}"></h5>
-                <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
-                    <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}" alt="Game Image" class="result-image">
-                </a>
-                <div class="result-info">
-                    <p class="game-developer">
-                        <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
-                    </p>
-                    <div class="text-colors mt-2">
-                        <strong>Price:</strong>
-                        <span th:text="'Rp.' + ${game.getPrice()}"></span>
-                    </div>
-                    <div class="text-colors mt-3">
-                        <strong>Steam Link:</strong>
-                        <a th:href="${game.steamLink}" target="_blank">Click here</a>
-                    </div>
-                    <p class="game-genre">
-                        <strong>Genre:</strong>
-                        <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
-                    </p>
-                    <p class="game-rating">
-                        <strong>Rating:</strong>
-                        <span th:text="${game.getRating()}"></span> out of
-                        <span th:text="${game.getRatingSum()}"></span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="search-results">
-    <h5 class="text-center" style="font-size: 18px; color: black; font-weight: bold;">OTHER GAMES :</h5>
-    <div th:if="${otherGames}">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 d-flex flex-wrap justify-content-start">
-                    <div class="p-2" style="width: 18%;" th:each="game : ${otherGames}">
-                        <h5 class="game-title" th:text="${game.getTitle()}"></h5>
-                        <div class="search-result-card">
-                            <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
-                                <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}" alt="Game Image" class="result-image">
-                            </a>
-                            <div class="result-info">
-                                <p class="game-developer">
-                                    <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
-                                </p>
-                                <div class="text-colors">
-                                    <strong>Price:</strong>
-                                    <span th:text="'Rp.' + ${game.getPrice()}"></span>
-                                </div>
-                                <div class="text-colors">
-                                    <strong>Steam Link:</strong>
-                                    <a th:href="${game.getSteamLink()}" target="_blank">Click here</a>
-                                </div>
-                                <p class="game-genre">
-                                    <strong>Genre:</strong>
-                                    <span th:each="genre : ${game.getGenres()}" th:text="${genre}" th:if="${genre != null}">Action</span>
-                                </p>
-                                <p class="game-rating">
-                                    <strong>Rating:</strong>
-                                    <span th:text="${game.getRating()}"></span> out of
-                                    <span th:text="${game.getRatingSum()}"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="search-results">
-    <h5 class="text-center" style="font-size: 18px; color: black; font-weight: bold;">GAME RECOMMENDATIONS BY GENRE:</h5>
-
-    <div th:if="${hybridGenre}">
-        <!-- Loop through each genre -->
-        <div class="genre-container" th:each="genreFilter : ${hybridGenre}">
-            <h5 class="text-center" th:text="${genreFilter.getName()}" style="font-size: 18px; color: black; font-weight: bold;"></h5>
-
-            <!-- Loop through each game within the genre -->
-            <div class="search-results-container d-flex justify-content-center flex-wrap">
-                <div class="search-result-card" th:each="game : ${genreFilter.getGameFilters()}">
-                    <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}" class="search-result-card">
-                        <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}" alt="Game Image" class="result-image">
+<!-- Main content -->
+<div class="container mt-3">
+    <!-- Iterate over genres -->
+    <div th:each="genre : ${genres}" class="genre-container">
+        <!-- Genre title -->
+        <div class="genre-title" th:text="${genre.name}"></div>
+        <!-- Games for the genre -->
+        <div class="row">
+            <div th:each="game : ${genre.getGameFilters()}" class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="game-card">
+                    <!-- Gambar dengan tautan ke halaman detail game -->
+                    <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
+                        <img class="game-image" th:src="'data:image/jpeg;base64,' + ${game.image}" alt="Game Image">
                     </a>
-                    <div class="result-info">
-                        <p class="game-title">
-                            <strong>Title:</strong> <span th:text="${game.title}"></span>
-                        </p>
-                        <p class="game-developer">
-                            <strong>Developer:</strong> <span th:text="${game.getDeveloper()}"></span>
-                        </p>
-                        <div class="text-colors mt-2">
-                            <strong>Price:</strong>
-                            <span th:text="'Rp.' + ${game.getPrice()}"></span>
-                        </div>
-                        <div class="text-colors mt-3">
-                            <strong>Steam Link:</strong>
-                            <a th:href="${game.getSteamLink()}" target="_blank">Click here</a>
-                        </div>
-                        <p class="game-rating">
-                            <strong>Rating:</strong>
-                            <span th:text="${game.getRating()}"></span> out of
-                            <span th:text="${game.getRatingSum()}"></span>
-                        </p>
-                    </div>
+                    <!-- Judul game -->
+                    <div class="game-title" th:text="${game.title}"></div>
                 </div>
             </div>
         </div>
+        <!-- Tombol See More -->
+        <div class="see-more">
+            <a th:href="@{/genre/game(id=${genre.id}, username=${username}, email=${email})}">See More</a>
+        </div>
     </div>
 </div>
-
-
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>

@@ -65,6 +65,13 @@ public class GameController {
         model.addAttribute("username", username);
         model.addAttribute("email", email);
         User user = userService.getUserByUsername(username);
+        if (user == null) {
+            user = new User();
+            user.setId(0);
+            user.setUsername("");
+            user.setPassword("");
+            user.setRole(false);
+        }
         model.addAttribute("role", user.getRole());
 
         // Jika ada query pencarian
@@ -195,6 +202,13 @@ public class GameController {
         model.addAttribute("gameId", gameId);
         GameDTO gameDTO = gameService.getGameById(gameId);
         User user = userService.getUserByUsername(username);
+        if (user == null) {
+            user = new User();
+            user.setId(0);
+            user.setUsername("");
+            user.setPassword("");
+            user.setRole(false);
+        }
         model.addAttribute("gameDTO", gameDTO);
 
         Rating rating = ratingService.findByUserIdAndGameId(user.getId(), gameId);
@@ -217,6 +231,13 @@ public class GameController {
         model.addAttribute("gameId", gameId);
         Game game = gameService.findGame(gameId);
         User user = userService.getUserByUsername(username);
+        if (user == null) {
+            user = new User();
+            user.setId(0);
+            user.setUsername("");
+            user.setPassword("");
+            user.setRole(false);
+        }
         Rating newRating = new Rating();
         if (rating != null){
             if (rating.getId() != null) newRating.setId(rating.getId());

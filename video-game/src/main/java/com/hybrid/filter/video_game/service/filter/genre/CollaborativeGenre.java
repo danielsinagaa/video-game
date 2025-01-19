@@ -29,10 +29,6 @@ public class CollaborativeGenre {
     private GenreRepository genreRepository;
 
     public List<Genre> recommendGenresBasedOnCollaboration(Integer userId) {
-        // Validasi userId
-        if (userId == null || !userExists(userId)) {
-            throw new IllegalArgumentException("Invalid user ID");
-        }
 
         // 1. Mendapatkan semua rating dari pengguna
         List<Rating> userRatings = ratingRepository.findByUserId(userId);
