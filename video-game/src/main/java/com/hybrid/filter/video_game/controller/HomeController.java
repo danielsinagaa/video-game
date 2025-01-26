@@ -4,6 +4,7 @@ import com.hybrid.filter.video_game.model.dto.GameDTO;
 import com.hybrid.filter.video_game.model.dto.GenreDTO;
 import com.hybrid.filter.video_game.model.dto.GenreFilterDTO;
 import com.hybrid.filter.video_game.model.dto.TopGenreFilterDTO;
+import com.hybrid.filter.video_game.model.entity.Game;
 import com.hybrid.filter.video_game.model.entity.User;
 import com.hybrid.filter.video_game.service.GameService;
 import com.hybrid.filter.video_game.service.GenreService;
@@ -35,11 +36,14 @@ public class HomeController {
 
     @GetMapping("/home-guest")
     public String homeGuest(Model model) {
-
         List<TopGenreFilterDTO> genres = genreService.getTop5GamesByGenre();
+        List<GameDTO> freeGames = gameService.getFreeGames();
+        List<Integer> years = gameService.getReleaseYears(); // Ambil daftar tahun rilis
 
-        // Menambahkan data genre dan user ke model
         model.addAttribute("genres", genres);
+        model.addAttribute("freeGames", freeGames);
+        model.addAttribute("years", years); // Tambahkan tahun ke model
+
         User user = new User();
         user.setId(0);
         user.setUsername("");
@@ -48,22 +52,32 @@ public class HomeController {
 
         model.addAttribute("role", user.getRole());
 
-
         return "home";
     }
 
     @GetMapping("/home")
-    public String home(@RequestParam("username") String username, @RequestParam("email") String email, Model model) {
-        // Menambahkan username dan email ke model untuk diteruskan ke halaman
+    public String home(@RequestParam("username") String username,
+                       @RequestParam("email") String email,
+                       @RequestParam(value = "year", required = false) Integer year,
+                       Model model) {
         model.addAttribute("username", username);
         model.addAttribute("email", email);
 
         List<TopGenreFilterDTO> genres = genreService.getTop5GamesByGenre();
+        List<GameDTO> freeGames = gameService.getFreeGames();
+        List<Integer> years = gameService.getReleaseYears(); // Ambil daftar tahun rilis
 
-        // Menambahkan data genre dan user ke model
         model.addAttribute("genres", genres);
-        model.addAttribute("username", username);
-        model.addAttribute("email", email);
+        model.addAttribute("freeGames", freeGames);
+        model.addAttribute("years", years); // Tambahkan tahun ke model
+
+        // Jika parameter tahun disediakan, cari game berdasarkan tahun
+        if (year != null) {
+            List<GameDTO> gamesByYear = gameService.findGamesByYear(year);
+            model.addAttribute("gamesByYear", gamesByYear);
+            model.addAttribute("selectedYear", year); // Menandai tahun yang dipilih
+        }
+
         User user = userService.getUserByUsername(username);
         if (user == null) {
             user = new User();
@@ -74,7 +88,7 @@ public class HomeController {
         }
         model.addAttribute("role", user.getRole());
 
-
         return "home";
     }
+
 }

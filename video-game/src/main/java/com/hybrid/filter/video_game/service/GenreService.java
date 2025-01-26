@@ -42,6 +42,7 @@ public class GenreService {
             // Fetch games for the current genre
             List<Game> games = gameRepository.findByGenres(List.of(genre));
 
+
             // Calculate average rating for each game
             Map<Game, Double> gameRatings = games.stream().collect(Collectors.toMap(
                     game -> game,
@@ -85,7 +86,9 @@ public class GenreService {
             genreFilterDTO.setId(genre.getId());
             genreFilterDTO.setName(genre.getName());
             genreFilterDTO.setGameFilters(gameFilterDTOS);
-            topGamesByGenre.add(genreFilterDTO);
+            if (!games.isEmpty()) {
+                topGamesByGenre.add(genreFilterDTO);
+            }
         }
 
         return topGamesByGenre;

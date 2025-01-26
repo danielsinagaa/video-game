@@ -30,6 +30,37 @@ public class GameService {
     @Autowired
     HybridFilterService hybridFilterService;
 
+    public List<Integer> getReleaseYears() {
+        List<Game> games = gameRepository.findAll();
+        return games.stream()
+                .map(game -> game.getReleaseDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().getYear())
+                .collect(Collectors.toSet())
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public List<GameDTO> findGamesByYear(int year) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(year, Calendar.JANUARY, 1, 0, 0, 0);
+        Date startDate = calendar.getTime();
+
+        calendar.set(year, Calendar.DECEMBER, 31, 23, 59, 59);
+        Date endDate = calendar.getTime();
+
+        List<GameDTO> gameResponse = new ArrayList<>();
+        List<Game> filteredGames = gameRepository.findByReleaseDateBetween(startDate, endDate);
+
+        return getGameDTOS(gameResponse, filteredGames);
+    }
+
+    public List<GameDTO> getFreeGames() {
+        List<GameDTO> gameResponse = new ArrayList<>();
+        List<Game> games = gameRepository.findByPrice(0.0);
+        return getGameDTOS(gameResponse, games);
+    }
+
     public List<GameDTO> getGamesByGenreId(int genreId){
         Genre genre = genreService.getGenreById(genreId);
 

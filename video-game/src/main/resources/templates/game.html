@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Navbar Example</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
         /* Body background color */
         body {
@@ -13,6 +15,16 @@
             margin: 0;
             padding: 0;
             height: 100%;
+        }
+
+        /* Add this to your existing <style> section */
+        .steam-icon {
+            transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for transform and color */
+        }
+
+        .steam-icon:hover {
+            transform: scale(1.2); /* Increase size of the icon on hover */
+            color: #00b0ff; /* Change color to a light blue on hover */
         }
 
         /* Navbar custom styles */
@@ -122,9 +134,9 @@
         }
 
         .search-bar input {
-            width: 30%;  /* Reduce the width */
-            padding: 10px 12px;  /* Smaller padding */
-            font-size: 18px;   /* Smaller font size */
+            width: 30%; /* Reduce the width */
+            padding: 10px 12px; /* Smaller padding */
+            font-size: 18px; /* Smaller font size */
             border-radius: 5px;
             border: 2px solid #cd6155;
         }
@@ -137,10 +149,10 @@
         }
 
         .search-bar button {
-            padding: 8px 12px;  /* Smaller padding */
+            padding: 8px 12px; /* Smaller padding */
             background-color: black;
             color: white;
-            font-size: 18px;   /* Smaller font size */
+            font-size: 18px; /* Smaller font size */
             border: none;
             border-radius: 5px;
             margin-left: -5px;
@@ -149,6 +161,7 @@
         .search-bar button:hover {
             background-color: #3B1C32;
         }
+
         .search-results-container {
             display: flex;
             justify-content: center;
@@ -175,7 +188,7 @@
 
         .game-genre {
             display: flex;
-            flex-wrap: wrap;   /* Membungkus genre yang panjang */
+            flex-wrap: wrap; /* Membungkus genre yang panjang */
             justify-content: center;
             font-size: 14px;
             margin-top: 10px;
@@ -183,10 +196,10 @@
         }
 
         .game-genre span {
-            margin-right: 5px;  /* Memberikan sedikit jarak antar genre */
+            margin-right: 5px; /* Memberikan sedikit jarak antar genre */
             margin-bottom: 5px; /* Memberikan jarak ke bawah agar genre berikutnya tidak saling bertumpuk */
-            word-wrap: break-word;  /* Memungkinkan kata yang panjang dibungkus */
-            white-space: normal;    /* Membolehkan pembungkusan kata */
+            word-wrap: break-word; /* Memungkinkan kata yang panjang dibungkus */
+            white-space: normal; /* Membolehkan pembungkusan kata */
         }
 
 
@@ -218,13 +231,15 @@
             font-size: 14px;
             margin: 5px 0;
         }
+
         .row:last-child {
             justify-content: center;
         }
+
         .game-genre span {
             display: inline-block; /* Menjadikan elemen inline-block agar bisa dibungkus */
-            margin-right: 5px;     /* Memberikan sedikit jarak antar genre */
-            white-space: normal;   /* Membolehkan genre membungkus ke baris berikutnya */
+            margin-right: 5px; /* Memberikan sedikit jarak antar genre */
+            white-space: normal; /* Membolehkan genre membungkus ke baris berikutnya */
             word-wrap: break-word; /* Memungkinkan teks panjang dibungkus */
         }
 
@@ -244,32 +259,35 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <!-- Left Side: Home, Game -->
     <div class="navbar-nav">
-        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/home(username=${username}, email=${email})}">Home</a>
-        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/game(username=${username}, email=${email})}">Game</a>
+        <a class="nav-item nav-link" href="#" style="font-size: 20px; color: #cd6155"
+           th:href="@{/home(username=${username}, email=${email})}">Home</a>
+        <a class="nav-item nav-link" href="#" style="font-size: 20px; color: #cd6155"
+           th:href="@{/game(username=${username}, email=${email})}">Game</a>
     </div>
 
     <!-- Center: Your Game Recommendation System -->
-    <a style="font-size: 20px;" class="navbar-brand" href="#" th:href="@{/}">Your Game Recommendation System</a>
+    <a class="navbar-brand" href="#" style="font-size: 20px;" th:href="@{/}">Your Game Recommendation System</a>
 
     <!-- Right Side: Profile, Log Out -->
     <div class="navbar-nav ml-auto">
-        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/profile(username=${username}, email=${email})}">Profile</a>
-        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/logout}">Log out</a>
+        <a class="nav-item nav-link" href="#" style="font-size: 20px; color: #cd6155"
+           th:href="@{/profile(username=${username}, email=${email})}">Profile</a>
+        <a class="nav-item nav-link" href="#" style="font-size: 20px; color: #cd6155" th:href="@{/logout}">Log out</a>
     </div>
 </nav>
 
 <!-- Search bar below navbar -->
 <div class="search-bar">
-    <form th:action="@{/game(username=${username}, email=${email})}" method="get">
-        <input type="text" placeholder="Search for a game..." name="search" value="" th:value="${searchQuery}">
-        <input type="hidden" name="username" th:value="${username}">
-        <input type="hidden" name="email" th:value="${email}">
+    <form method="get" th:action="@{/game(username=${username}, email=${email})}">
+        <input name="search" placeholder="Search for a game..." th:value="${searchQuery}" type="text" value="">
+        <input name="username" th:value="${username}" type="hidden">
+        <input name="email" th:value="${email}" type="hidden">
         <button type="submit">Search</button>
     </form>
 </div>
 
 <div class="add-game">
-    <a th:href="@{/game/add(username=${username}, email=${email})}" class="btn-add-game" th:if="${role}">Add Game +</a>
+    <a class="btn-add-game" th:href="@{/game/add(username=${username}, email=${email})}" th:if="${role}">Add Game +</a>
 </div>
 
 <div class="search-results">
@@ -281,8 +299,8 @@
                         <div class="search-result-card">
                             <h5 class="game-title" th:text="${game.getTitle()}"></h5>
                             <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
-                                <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
-                                     alt="Game Image" class="result-image">
+                                <img alt="Game Image"
+                                     class="result-image" th:src="'data:image/jpeg;base64,' + ${game.getImage()}">
                             </a>
                             <div class="result-info">
                                 <p class="game-developer">
@@ -294,12 +312,14 @@
                                 </div>
                                 <div class="text-colors">
                                     <strong>Steam Link:</strong>
-                                    <a th:href="${game.steamLink}" target="_blank">Click here</a>
+                                    <a target="_blank" th:href="${game.steamLink}">
+                                        <i class="fab fa-steam steam-icon" style="color: white; font-size: 24px;"></i>
+                                    </a>
                                 </div>
                                 <p class="game-genre">
                                     <strong>Genre:</strong>
                                     <span th:each="genre : ${game.getGenres()}"
-                                          th:text="${genre}" th:if="${genre != null}">Action</span>
+                                          th:if="${genre != null}" th:text="${genre}">Action</span>
                                 </p>
                                 <p class="game-rating">
                                     <strong>Rating:</strong>
@@ -323,8 +343,8 @@
                 <div class="search-result-card">
                     <h5 class="game-title game-genre" th:text="${game.getTitle()}"></h5>
                     <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
-                        <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
-                             alt="Game Image" class="result-image">
+                        <img alt="Game Image"
+                             class="result-image" th:src="'data:image/jpeg;base64,' + ${game.getImage()}">
                     </a>
                     <div class="result-info">
                         <p class="game-developer">
@@ -336,12 +356,14 @@
                         </div>
                         <div class="text-colors mt-3">
                             <strong>Steam Link:</strong>
-                            <a th:href="${game.steamLink}" target="_blank">Click here</a>
+                            <a target="_blank" th:href="${game.steamLink}">
+                                <i class="fab fa-steam steam-icon" style="color: white; font-size: 24px;"></i>
+                            </a>
                         </div>
                         <p class="game-genre">
                             <strong>Genre:</strong>
                             <span th:each="genre : ${game.getGenres()}"
-                                  th:text="${genre}" th:if="${genre != null}">Action</span>
+                                  th:if="${genre != null}" th:text="${genre}">Action</span>
                         </p>
                         <p class="game-rating">
                             <strong>Rating:</strong>
@@ -365,8 +387,8 @@
                         <div class="search-result-card">
                             <h5 class="game-title" th:text="${game.getTitle()}"></h5>
                             <a th:href="@{/game/detail(username=${username}, email=${email}, gameId=${game.getId()})}">
-                                <img th:src="'data:image/jpeg;base64,' + ${game.getImage()}"
-                                     alt="Game Image" class="result-image">
+                                <img alt="Game Image"
+                                     class="result-image" th:src="'data:image/jpeg;base64,' + ${game.getImage()}">
                             </a>
                             <div class="result-info">
                                 <p class="game-developer">
@@ -378,12 +400,14 @@
                                 </div>
                                 <div class="text-colors">
                                     <strong>Steam Link:</strong>
-                                    <a th:href="${game.steamLink}" target="_blank">Click here</a>
+                                    <a target="_blank" th:href="${game.steamLink}">
+                                        <i class="fab fa-steam steam-icon" style="color: white; font-size: 24px;"></i>
+                                    </a>
                                 </div>
                                 <p class="game-genre">
                                     <strong>Genre:</strong>
                                     <span th:each="genre : ${game.getGenres()}"
-                                          th:text="${genre}" th:if="${genre != null}">Action</span>
+                                          th:if="${genre != null}" th:text="${genre}">Action</span>
                                 </p>
                                 <p class="game-rating">
                                     <strong>Rating:</strong>
@@ -404,10 +428,11 @@
     <h5 style="font-size: 18px; color: #cd6155; font-weight: bold;">Genres</h5>
 
     <!-- Add Genre button -->
-    <a th:href="@{/genre/add(username=${username}, email=${email})}" class="btn-add-genre" th:if="${role}">Add Genre</a>
+    <a class="btn-add-genre" th:href="@{/genre/add(username=${username}, email=${email})}" th:if="${role}">Add Genre</a>
 
     <!-- Thymeleaf loop to display genres -->
-    <a class="genre-item" th:each="genre : ${genres}" th:href="@{/genre/game(id=${genre.id}, username=${username}, email=${email})}"
+    <a class="genre-item" th:each="genre : ${genres}"
+       th:href="@{/genre/game(id=${genre.id}, username=${username}, email=${email})}"
        th:style="|background-image: url(data:image/jpeg;base64,${genre.getGenreImage64()}); color: white; font-weight: bold; text-shadow: 1px 1px 2px black; display: block; margin: 10px 0; padding: 10px; border-radius: 5px; background-color: black;|">
         <span th:text="${genre.name}"></span>
     </a>

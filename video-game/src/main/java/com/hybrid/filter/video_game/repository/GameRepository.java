@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -18,4 +19,9 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 
     @Query("SELECT g FROM Game g WHERE g.title LIKE %:title%")
     List<Game> searchByTitleLike(@Param("title") String title);
+
+    List<Game> findByPrice(Double price);
+
+
+    List<Game> findByReleaseDateBetween(Date startDate, Date endDate);
 }

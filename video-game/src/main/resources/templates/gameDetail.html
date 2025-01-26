@@ -6,6 +6,8 @@
     <title>Game Detail</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         /* Body background color */
         body {
@@ -134,7 +136,9 @@
 
                     <div class="text-colors mt-3">
                         <strong>Steam Link:</strong>
-                        <a th:href="${gameDTO.steamLink}" target="_blank" th:text="${gameDTO.steamLink}">Steam Link</a>
+                        <a th:href="${gameDTO.steamLink}" target="_blank">
+                            <i class="fab fa-steam fa-2x" style="color: white;"></i>
+                        </a>
                     </div>
 
                     <div class="text-colors mt-3">
