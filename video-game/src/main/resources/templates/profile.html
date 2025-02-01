@@ -226,8 +226,16 @@
 
     <!-- Right Side: Profile, Log Out -->
     <div class="navbar-nav ml-auto">
-        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/profile(username=${username}, email=${email})}">Profile</a>
-        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#" th:href="@{/logout}">Log out</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#"
+           th:href="@{/profile(username=${username}, email=${email})}"
+           th:if="${username != ''}">Profile</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#"
+           th:href="@{/logout}"
+           th:if="${username != null and username != ''}">Log out</a>
+
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#"
+           th:href="@{/login}"
+           th:if="${username == null or username == ''}">Log in</a>
     </div>
 </nav>
 

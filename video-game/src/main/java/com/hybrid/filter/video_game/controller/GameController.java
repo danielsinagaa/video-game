@@ -238,14 +238,22 @@ public class GameController {
             user.setPassword("");
             user.setRole(false);
         }
-        Rating newRating = new Rating();
-        if (rating != null){
-            if (rating.getId() != null) newRating.setId(rating.getId());
+
+        Rating existingRating = ratingService.findByUserIdAndGameId(user.getId(), gameId);
+        if (existingRating != null) {
+            existingRating.setRatingValue(ratingValue);
+            ratingService.save(existingRating); // Update rating yang sudah ada
+        } else {
+            Rating newRating = new Rating();
+            if (rating != null){
+                if (rating.getId() != null) newRating.setId(rating.getId());
+            }
+            newRating.setUser(user);
+            newRating.setGame(game);
+            newRating.setRatingValue(ratingValue);
+            ratingService.save(newRating); // Simpan rating baru jika belum ada
         }
-        newRating.setUser(user);
-        newRating.setGame(game);
-        newRating.setRatingValue(ratingValue);
-        ratingService.save(newRating);
+
         List<GenreDTO> genres = genreService.getAllGenresDTO();
         for (GenreDTO genre : genres) {
             byte[] genreImage = genre.getGenreImage();

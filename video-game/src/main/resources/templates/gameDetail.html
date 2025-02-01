@@ -102,8 +102,16 @@
     </div>
     <a class="navbar-brand" style="color: #cd6155;" href="#" th:href="@{/}">Your Game Recommendation System</a>
     <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" style="color: #cd6155" href="#" th:href="@{/profile(username=${username}, email=${email})}">Profile</a>
-        <a class="nav-item nav-link" style="color: #cd6155" href="#" th:href="@{/logout}">Log out</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#"
+           th:href="@{/profile(username=${username}, email=${email})}"
+           th:if="${username != ''}">Profile</a>
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#"
+           th:href="@{/logout}"
+           th:if="${username != null and username != ''}">Log out</a>
+
+        <a style="font-size: 20px; color: #cd6155" class="nav-item nav-link" href="#"
+           th:href="@{/login}"
+           th:if="${username == null or username == ''}">Log in</a>
     </div>
 </nav>
 
@@ -161,7 +169,10 @@
                                 <p>You haven't rated this game yet.</p>
                             </div>
                             <div>
-                                <form th:action="@{/game/rate(username=${username}, email=${email}, gameId=${gameId}, rating=${rating})}" method="post" class="form-rating">
+                                <form th:action="@{/game/rate}" method="post" class="form-rating">
+                                    <input type="hidden" name="username" th:value="${username}">
+                                    <input type="hidden" name="email" th:value="${email}">
+                                    <input type="hidden" name="gameId" th:value="${gameId}">
                                     <input type="number" name="ratingValue" class="form-control" min="1" max="5" placeholder="Rate this game (1-5)" required>
                                     <button type="submit" class="btn submit-btn mt-3">Submit Rating</button>
                                 </form>
