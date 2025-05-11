@@ -44,6 +44,93 @@ public class GameController {
     @Autowired
     private HybridFilterGenreService hybridFilterGenreService;
 
+    @GetMapping("/game/delete")
+    public String deleteGame(@RequestParam("username") String username,
+                             @RequestParam("email") String email,
+                             @RequestParam("gameId") int gameId, Model model) {
+
+        // Menghapus game berdasarkan gameId
+        gameService.removeGame(gameId);
+
+        // Menambahkan data username dan email ke model untuk digunakan di halaman home
+        model.addAttribute("username", username);
+        model.addAttribute("email", email);
+
+        // Redirect ke halaman home setelah penghapusan
+        return "redirect:/home?username=" + username + "&email=" + email;
+    }
+
+    @GetMapping("/game/edit")
+    public String editGame(@RequestParam("username") String username,
+                           @RequestParam("email") String email,
+                           @RequestParam("gameId") int gameId, Model model) {
+        // Fetch the game based on the ID
+        GameDTO game = gameService.getGameById(gameId);
+
+        // Add the game and user details to the model
+        model.addAttribute("game", game);
+        model.addAttribute("username", username);
+        model.addAttribute("email", email);
+        model.addAttribute("genres", genreService.getAllGenresDTO());
+
+        return "editGame";  // Return to the edit game page (editGame.html)
+    }
+
+    @PostMapping("/game/edit")
+    public String updateGame(@RequestParam("username") String username,
+                             @RequestParam("email") String email,
+                             @RequestParam("id") int id,
+                             @RequestParam("title") String title,
+                             @RequestParam("description") String description,
+                             @RequestParam("releaseDate") String releaseDate,
+                             @RequestParam("developer") String developer,
+                             @RequestParam("steamLink") String steamLink,
+                             @RequestParam("price") Double price,
+                             @RequestParam(value = "genre1", required = true) Integer genreId1,
+                             @RequestParam(value = "genre2", required = false) Integer genreId2,
+                             @RequestParam(value = "genre3", required = false) Integer genreId3,
+                             @RequestParam(value = "genre4", required = false) Integer genreId4,
+                             @RequestParam("gameImage") MultipartFile gameImage,
+                             Model model) {
+
+        // Retrieve the existing game
+        Game game = gameService.findGame(id);
+
+        // Update the game fields
+        game.setTitle(title);
+        game.setDescription(description);
+        game.setReleaseDate(Date.valueOf(releaseDate));  // Convert String to Date
+        game.setDeveloper(developer);
+        game.setSteamLink(steamLink);
+        game.setPrice(price);
+
+        // Handle image upload if there's a new one
+        if (!gameImage.isEmpty()) {
+            try {
+                byte[] bytes = gameImage.getBytes();
+                game.setGameImage(bytes);  // Save the new image
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.addAttribute("errorMessage", "Error uploading the image!");
+                return "editGame";
+            }
+        }
+
+        // Set genres
+        List<Genre> selectedGenres = new ArrayList<>();
+        if (genreId1 != null) selectedGenres.add(genreService.getGenreById(genreId1));
+        if (genreId2 != null) selectedGenres.add(genreService.getGenreById(genreId2));
+        if (genreId3 != null) selectedGenres.add(genreService.getGenreById(genreId3));
+        if (genreId4 != null) selectedGenres.add(genreService.getGenreById(genreId4));
+
+        game.setGenres(selectedGenres);
+
+        // Save the updated game
+        gameService.save(game);
+
+        return "redirect:/game/editSuccess?username=" + username + "&email=" + email;
+    }
+
     @GetMapping("/game")
     public String game(@RequestParam("username") String username,
                        @RequestParam("email") String email,
@@ -188,6 +275,18 @@ public class GameController {
         model.addAttribute("email", email);
 
         return "gameAddSuccess";
+    }
+
+
+    @GetMapping("/game/editSuccess")
+    public String gameEditSuccess(@RequestParam("username") String username,
+                                 @RequestParam("email") String email,
+                                 Model model) {
+
+        model.addAttribute("username", username);
+        model.addAttribute("email", email);
+
+        return "gameEditSuccess";
     }
 
     @GetMapping("/game/detail")

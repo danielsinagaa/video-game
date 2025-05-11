@@ -124,7 +124,14 @@
                     <img th:src="'data:image/jpeg;base64,' + ${gameDTO.getImage()}" alt="Game Image" class="img-fluid">
                 </div>
                 <div class="game-info">
-                    <h1 class="game-title mt-4" th:text="${gameDTO.title}">Game Title</h1>
+                    <h1 class="game-title mt-4" th:text="${gameDTO.title}">Game Title
+                        <a th:href="@{/game/edit?username=${username}&email=${email}&gameId=${gameDTO.id}}">
+                            <i class="fa fa-edit" style="font-size:24px"></i>
+                        </a>
+                        <a th:href="@{/game/delete?username=${username}&email=${email}&gameId=${gameDTO.id}}">
+                            <i class="fa fa-trash" style="font-size:24px"></i>
+                        </a>
+                    </h1>
                     <p class="text-colors" th:text="${gameDTO.description}">Game description...</p>
 
                     <div class="text-colors">
@@ -155,7 +162,7 @@
                         <span th:text="${gameDTO.ratingSum}"></span>
                     </div>
 
-                    <div >
+                    <div>
                         <p>Release Date: <span th:text="${gameDTO.getDateString()}">Release Date</span> </p>
                     </div>
 
@@ -172,7 +179,7 @@
                                 <form th:action="@{/game/rate}" method="post" class="form-rating">
                                     <input type="hidden" name="username" th:value="${username}">
                                     <input type="hidden" name="email" th:value="${email}">
-                                    <input type="hidden" name="gameId" th:value="${gameId}">
+                                    <input type="hidden" name="gameId" th:value="${gameDTO.id}">
                                     <input type="number" name="ratingValue" class="form-control" min="1" max="5" placeholder="Rate this game (1-5)" required>
                                     <button type="submit" class="btn submit-btn mt-3">Submit Rating</button>
                                 </form>

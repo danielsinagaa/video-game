@@ -30,6 +30,10 @@ public class GameService {
     @Autowired
     HybridFilterService hybridFilterService;
 
+    public void removeGame(int id){
+        gameRepository.deleteById(id);
+    }
+
     public List<Integer> getReleaseYears() {
         List<Game> games = gameRepository.findAll();
         return games.stream()
