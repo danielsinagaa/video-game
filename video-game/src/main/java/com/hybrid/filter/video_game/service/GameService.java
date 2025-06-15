@@ -89,11 +89,14 @@ public class GameService {
         gameDTO.setDescription(game.getDescription());
         gameDTO.convertRupiah(game.getPrice());
         gameDTO.setSteamLink(game.getSteamLink());
+        gameDTO.setGenreList(game.getGenres());
         Date releaseDate = game.getReleaseDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(releaseDate);
         gameDTO.setDateString(formattedDate);
+        gameDTO.setReleaseDate(releaseDate);
         gameDTO.setImage(Base64.getEncoder().encodeToString(game.getGameImage()));
+        gameDTO.setPriceView(game.getPrice());
         List<Rating> ratings = ratingService.getRating(game.getId());
         if(ratings.isEmpty()) {
             gameDTO.setRating(0.0);

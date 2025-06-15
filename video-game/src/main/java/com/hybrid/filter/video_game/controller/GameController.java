@@ -73,7 +73,7 @@ public class GameController {
         model.addAttribute("email", email);
         model.addAttribute("genres", genreService.getAllGenresDTO());
 
-        return "editGame";  // Return to the edit game page (editGame.html)
+        return "gameEdit";  // Return to the edit game page (editGame.html)
     }
 
     @PostMapping("/game/edit")
