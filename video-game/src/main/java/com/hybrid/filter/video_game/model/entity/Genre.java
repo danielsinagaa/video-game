@@ -20,7 +20,7 @@ public class Genre {
     private String name;
 
     @Lob
-    @Column(name = "genre_image")
+    @Column(name = "genre_image", columnDefinition = "MEDIUMBLOB")
     private byte[] genreImage;
 
     @Override

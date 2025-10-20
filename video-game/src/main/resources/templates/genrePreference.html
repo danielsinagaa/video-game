@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Favorite Genres</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #cd6155;
+            color: white;
+        }
+
+        .navbar {
+            background-color: black;
+        }
+
+        .navbar .navbar-nav .nav-item .nav-link,
+        .navbar .navbar-brand {
+            color: #cd6155;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        .navbar .navbar-brand {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .navbar .navbar-nav .nav-item .nav-link:hover,
+        .navbar .navbar-brand:hover {
+            color: white;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            background-color: white;
+            color: black;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-custom {
+            background-color: #cd6155;
+            color: white;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #c0392b;
+        }
+
+        .genre-checkbox {
+            transform: scale(1.2);
+            margin-right: 10px;
+        }
+
+        .genre-label {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 22px;
+            text-align: center;
+            color: #cd6155;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" th:href="@{/home}" style="font-size: 20px; color: #cd6155">Home</a>
+    </div>
+    <a class="navbar-brand" th:href="@{/}">Your Game Recommendation System</a>
+</nav>
+
+<div class="form-container">
+    <h3 class="question-title mb-4">What kind of games do you like?</h3>
+    <p class="text-center text-muted mb-4">Choose one or more genres that match your preferences.</p>
+
+    <form th:action="@{/preference/save}" method="post">
+        <input type="hidden" name="username" th:value="${username}">
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6 mb-2" th:each="genre : ${genres}">
+                    <div class="form-check">
+                        <input class="form-check-input genre-checkbox" type="checkbox"
+                               name="selectedGenres" th:value="${genre.id}" id="genre-[[${genre.id}]]">
+                        <label class="form-check-label genre-label" th:for="'genre-' + ${genre.id}"
+                               th:text="${genre.name}"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-custom btn-block mt-3">Continue</button>
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

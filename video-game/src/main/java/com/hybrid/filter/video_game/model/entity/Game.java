@@ -35,7 +35,7 @@ public class Game {
     private String developer;
 
     @Lob
-    @Column(name = "game_image")
+    @Column(name = "game_image", columnDefinition = "MEDIUMBLOB")
     private byte[] gameImage;
 
     @Column(name = "steam_link")

@@ -53,3 +53,12 @@ CREATE TABLE IF NOT EXISTS `tb_game_genre` (
                                                FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
     FOREIGN KEY (genre_id) REFERENCES genre(id) ON DELETE CASCADE
     );
+
+CREATE TABLE IF NOT EXISTS guest_preference_genre (
+                                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                        user_id INT NULL,
+                                        session_id VARCHAR(255),
+                                        genres VARCHAR(255),
+                                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                        FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE SET NULL
+);
