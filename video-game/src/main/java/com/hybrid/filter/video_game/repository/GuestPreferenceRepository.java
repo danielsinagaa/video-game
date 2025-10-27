@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface GuestPreferenceRepository extends JpaRepository<GuestPreference, Long> {
     boolean existsByUserId(Integer userId);
-    boolean existsBySessionId(String sessionId);
     Optional<GuestPreference> findByUserId(Long userId);
 }

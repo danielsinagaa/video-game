@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class GuestPreferenceService {
@@ -18,11 +19,6 @@ public class GuestPreferenceService {
         return guestPreferenceRepository.existsByUserId(userId);
     }
 
-    public boolean existsBySessionId(String sessionId) {
-        if (sessionId == null || sessionId.isEmpty()) return false;
-        return guestPreferenceRepository.existsBySessionId(sessionId);
-    }
-
     public void saveGuestPreference(Integer userId, String sessionId, String genreIds) {
         GuestPreference preference = new GuestPreference();
         preference.setUserId(userId);
@@ -31,5 +27,10 @@ public class GuestPreferenceService {
         preference.setCreatedAt(LocalDateTime.now());
 
         guestPreferenceRepository.save(preference);
+    }
+
+    public Optional<GuestPreference> findByUserId(Integer userId) {
+        if (userId == null || userId == 0) return Optional.empty();
+        return guestPreferenceRepository.findByUserId(Long.valueOf(userId));
     }
 }
