@@ -93,9 +93,23 @@ public class ContentBased {
         // 7. Urutkan hasil rekomendasi (contoh: berdasarkan judul)
         recommendedGames.sort(Comparator.comparing(Game::getTitle));
 
-        // 8. Batasi hasil (misal 5 teratas)
-        return recommendedGames.stream()
-                .limit(5)
-                .collect(Collectors.toList());
+        // 7b. Urutkan agar minimal satu game dari tiap genre muncul dulu
+        Map<Integer, List<Game>> grouped = recommendedGames.stream()
+                .collect(Collectors.groupingBy(g -> g.getGenres().iterator().next().getId())); // asumsi ada getGenres()
+
+        List<Game> prioritized = new ArrayList<>();
+        for (Integer genreId : likedGenres) {
+            List<Game> list = grouped.get(genreId);
+            if (list != null && !list.isEmpty()) {
+                prioritized.add(list.get(0)); // ambil satu dulu per genre
+            }
+        }
+
+        // tambahkan sisanya
+        recommendedGames.stream()
+                .filter(g -> !prioritized.contains(g))
+                .forEach(prioritized::add);
+
+        return prioritized.stream().limit(5).collect(Collectors.toList());
     }
 }
