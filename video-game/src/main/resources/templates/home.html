@@ -104,6 +104,118 @@
         .see-more a:hover {
             text-decoration: underline;
         }
+
+        .search-results {
+            margin-top: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 20px;
+        }
+
+        .search-bar button {
+            padding: 8px 12px; /* Smaller padding */
+            background-color: black;
+            color: white;
+            font-size: 18px; /* Smaller font size */
+            border: none;
+            border-radius: 5px;
+            margin-left: -5px;
+        }
+
+        .search-bar button:hover {
+            background-color: #3B1C32;
+        }
+
+        .search-results-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .search-result-card {
+            background-color: #3B1C32;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 185px;
+            text-align: center;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .game-genre {
+            display: flex;
+            flex-wrap: wrap; /* Membungkus genre yang panjang */
+            justify-content: center;
+            font-size: 14px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .game-genre span {
+            margin-right: 5px; /* Memberikan sedikit jarak antar genre */
+            margin-bottom: 5px; /* Memberikan jarak ke bawah agar genre berikutnya tidak saling bertumpuk */
+            word-wrap: break-word; /* Memungkinkan kata yang panjang dibungkus */
+            white-space: normal; /* Membolehkan pembungkusan kata */
+        }
+
+
+        .search-result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .result-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .result-info {
+            padding: 15px;
+        }
+
+        .game-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .game-developer,
+        .game-genre,
+        .game-rating {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .row:last-child {
+            justify-content: center;
+        }
+
+        .game-genre span {
+            display: inline-block; /* Menjadikan elemen inline-block agar bisa dibungkus */
+            margin-right: 5px; /* Memberikan sedikit jarak antar genre */
+            white-space: normal; /* Membolehkan genre membungkus ke baris berikutnya */
+            word-wrap: break-word; /* Memungkinkan teks panjang dibungkus */
+        }
+
+        .game-title,
+        .game-developer span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            word-wrap: break-word;
+            display: block;
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
