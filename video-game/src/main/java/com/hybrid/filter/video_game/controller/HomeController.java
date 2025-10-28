@@ -42,7 +42,8 @@ public class HomeController {
     private HybridFilterGenreService hybridFilterGenreService;
 
     @GetMapping("/home-guest")
-    public String homeGuest(Model model) {
+    public String homeGuest(Model model,
+                       @RequestParam(value = "search", required = false) String searchQuery) {
         List<TopGenreFilterDTO> genres = genreService.getTop5GamesByGenre();
         List<GameDTO> freeGames = gameService.getFreeGames();
         List<Integer> years = gameService.getReleaseYears(); // Ambil daftar tahun rilis
@@ -59,6 +60,18 @@ public class HomeController {
 
         model.addAttribute("role", user.getRole());
 
+        List<GameDTO> searchResults = gameService.searchByName(searchQuery); // Mendapatkan hasil pencarian game
+        model.addAttribute("searchQuery", searchQuery);
+        model.addAttribute("searchResults", searchResults);
+
+        List<GameDTO> hybridFilter = gameService.hybridFilter(user.getId());
+        model.addAttribute("hybridFilter", hybridFilter);
+
+        List<GameDTO> otherGames = gameService.getOtherGames(user.getId());
+        model.addAttribute("otherGames", otherGames);
+
+        model.addAttribute("hybridGenre", hybridFilterGenreService.genreFilter(user.getId()));
+
         return "home";
     }
 
@@ -66,7 +79,8 @@ public class HomeController {
     public String home(@RequestParam("username") String username,
                        @RequestParam("email") String email,
                        @RequestParam(value = "year", required = false) Integer year,
-                       Model model) {
+                       Model model,
+                       @RequestParam(value = "search", required = false) String searchQuery) {
         model.addAttribute("username", username);
         model.addAttribute("email", email);
 
@@ -104,6 +118,18 @@ public class HomeController {
         }
 
         model.addAttribute("role", user.getRole());
+
+        List<GameDTO> searchResults = gameService.searchByName(searchQuery); // Mendapatkan hasil pencarian game
+        model.addAttribute("searchQuery", searchQuery);
+        model.addAttribute("searchResults", searchResults);
+
+        List<GameDTO> hybridFilter = gameService.hybridFilter(user.getId());
+        model.addAttribute("hybridFilter", hybridFilter);
+
+        List<GameDTO> otherGames = gameService.getOtherGames(user.getId());
+        model.addAttribute("otherGames", otherGames);
+
+        model.addAttribute("hybridGenre", hybridFilterGenreService.genreFilter(user.getId()));
 
         return "home";
     }
