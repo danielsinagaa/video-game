@@ -1,10 +1,14 @@
 package com.hybrid.filter.video_game.service.filter;
 
 import com.hybrid.filter.video_game.model.entity.Game;
+import com.hybrid.filter.video_game.model.entity.GameGenre;
+import com.hybrid.filter.video_game.model.entity.GuestPreference;
 import com.hybrid.filter.video_game.model.entity.Rating;
+import com.hybrid.filter.video_game.repository.GameGenreRepository;
 import com.hybrid.filter.video_game.repository.GameRepository;
 import com.hybrid.filter.video_game.repository.RatingRepository;
 import com.hybrid.filter.video_game.repository.UserRepository;
+import com.hybrid.filter.video_game.service.GuestPreferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,23 +27,65 @@ public class Collaborative {
     @Autowired
     private UserRepository userRepository;
 
-    // 🔹 Atur faktor random di sini — bisa diubah atau dikomentari jika tidak ingin random sama sekali
-    private static final double RANDOM_FACTOR = 0.15; // 0.15 = variasi 15%
+    @Autowired
+    private GameGenreRepository gameGenreRepository;
+
+    @Autowired
+    private GuestPreferenceService guestPreferenceService;
+
+    // 🔹 Unsur variasi random — bisa dikomentari jika tidak diinginkan
+    private static final double RANDOM_FACTOR = 0.15;
 
     public List<Game> recommendGamesBasedOnCollaboration(Integer userId) {
         if (userId == null) userId = 0;
 
-        // 1. Mendapatkan semua rating dari pengguna
+        // 1️⃣ Ambil rating user
         List<Rating> userRatings = ratingRepository.findByUserId(userId);
+
+        // 2️⃣ Jika user belum punya rating → fallback ke preferensi genre
         if (userRatings.isEmpty()) {
+            Optional<GuestPreference> prefOpt = guestPreferenceService.findByUserId(userId);
+            if (prefOpt.isPresent()) {
+                GuestPreference pref = prefOpt.get();
+                String genreString = pref.getGenres();
+
+                if (genreString != null && !genreString.isBlank()) {
+                    Set<Integer> likedGenres = Arrays.stream(genreString.split(","))
+                            .map(String::trim)
+                            .filter(s -> !s.isEmpty())
+                            .map(Integer::parseInt)
+                            .collect(Collectors.toSet());
+
+                    List<Game> recommendedGames = new ArrayList<>();
+                    for (Integer genreId : likedGenres) {
+                        List<GameGenre> gamesByGenre = gameGenreRepository.findByGenreId(genreId);
+                        for (GameGenre gg : gamesByGenre) {
+                            Game game = gg.getGame();
+                            if (!recommendedGames.contains(game)) {
+                                recommendedGames.add(game);
+                            }
+                        }
+                    }
+
+                    // Tambahkan sedikit variasi random agar hasil tidak monoton
+                    Random random = new Random();
+                    recommendedGames.sort(Comparator.comparing(Game::getTitle));
+                    Collections.shuffle(recommendedGames, random);
+
+                    return recommendedGames.stream()
+                            .limit(5)
+                            .collect(Collectors.toList());
+                }
+            }
+
+            // Tidak punya rating dan preferensi → return kosong
             return Collections.emptyList();
         }
 
-        // 2. Simpan rating user dalam Map
+        // 3️⃣ Jika punya rating → lanjut collaborative filtering
         Map<Integer, Integer> userRatingMap = userRatings.stream()
                 .collect(Collectors.toMap(r -> r.getGame().getId(), Rating::getRatingValue));
 
-        // 3. Kumpulkan semua rating dari seluruh user lain
         List<Rating> allRatings = ratingRepository.findAll();
         Map<Integer, List<Rating>> similarUsersRatings = new HashMap<>();
 
@@ -52,7 +98,6 @@ public class Collaborative {
             }
         }
 
-        // 4. Hitung kesamaan antar user
         Map<Integer, Double> userSimilarityScores = new HashMap<>();
         for (Map.Entry<Integer, List<Rating>> entry : similarUsersRatings.entrySet()) {
             double similarityScore = calculateSimilarity(userRatingMap, entry.getValue());
@@ -61,7 +106,6 @@ public class Collaborative {
             }
         }
 
-        // 5. Hitung skor rekomendasi
         Map<Integer, Double> recommendedGameScores = new HashMap<>();
         Random random = new Random();
 
@@ -83,7 +127,6 @@ public class Collaborative {
             }
         }
 
-        // 6. Urutkan game berdasarkan skor total (yang sudah di-random sedikit)
         List<Game> recommendedGames = recommendedGameScores.entrySet().stream()
                 .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
                 .map(entry -> gameRepository.findById(entry.getKey()).orElse(null))
@@ -94,7 +137,6 @@ public class Collaborative {
         return recommendedGames;
     }
 
-    // Fungsi cosine similarity (tanpa diubah)
     private double calculateSimilarity(Map<Integer, Integer> userRatingMap, List<Rating> otherUserRatings) {
         double dotProduct = 0.0;
         double userMagnitude = 0.0;
@@ -112,7 +154,6 @@ public class Collaborative {
         }
 
         if (userMagnitude == 0.0 || otherUserMagnitude == 0.0) return 0.0;
-
         return dotProduct / (Math.sqrt(userMagnitude) * Math.sqrt(otherUserMagnitude));
     }
 }
